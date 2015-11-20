@@ -4,10 +4,11 @@
 #include <fstream>
 #include <string>
 #include "GlobalData.h"
+#include "Source.h"
 
 using namespace std;
 
-GlobalData* globaldata;
+
 
 
 int main()
