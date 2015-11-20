@@ -2,9 +2,11 @@
 class Node
 {
 public:
-	Node(double t, long ID);
-	Node(double t, long ID, double q, double alfa_d_t);
+	Node(long ID);
+	Node(long ID, double q, double alfa_d_t);
 	~Node();
+
+	void set_t(double t);
 
 private:
 	long ID;
