@@ -12,6 +12,7 @@ public:
 
 	void setBoundryConditions(double q, double alfa_d_t);
 	void generateFEM_GRID();
+	void calculateLocalMatriciesAndLocalVectors();
 
 private:
 	Element** elementy;

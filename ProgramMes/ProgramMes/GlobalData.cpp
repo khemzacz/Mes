@@ -49,6 +49,14 @@ void GlobalData::pobierz_dane()
 			{
 				setK(wartosc);
 			}
+			else if (test == "Q:")
+			{
+				setQ(wartosc);
+			}
+			else if (test == "Alfa:")
+			{
+				setAlfa(wartosc);
+			}
 			//cout << test << "\t" << wartosc << endl;
 		}
 		plik.close();
@@ -67,6 +75,8 @@ void GlobalData::wypisz_dane()
 	cout << "DLugosc (L): " << getL() << endl;
 	cout << "Powierzchnia (S): " << getS() << endl;
 	cout << "Wspolczynnik przewodzenia ciepla (K): " << getK() << endl;
+	cout << "Q (q): " << getQ() << endl;
+	cout << "Alfa (alfa): " << getAlfa() << endl;
 }
 
 void GlobalData::setMe(int n)
@@ -90,9 +100,14 @@ void GlobalData::setK(double n)
 	this->K = n;
 }
 
-void GlobalData::setQ()
+void GlobalData::setQ(double q)
 {
 	this->q = q;
+}
+
+void GlobalData::setAlfa(double alfa)
+{
+	this->alfa = alfa;
 }
 
 int GlobalData::getMe()
@@ -123,4 +138,9 @@ double GlobalData::getK()
 double GlobalData::getQ()
 {
 	return (this->q);
+}
+
+double GlobalData::getAlfa()
+{
+	return (this->alfa);
 }

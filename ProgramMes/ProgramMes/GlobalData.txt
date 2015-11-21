@@ -1,6 +1,8 @@
-Me:	3
-Mn:	4
-L:		2.5
+Me:	2
+Mn:	3
+L:		5
 S:		2
 K:		50
+Q:		-300
+Alfa:	10
 KONIEC
