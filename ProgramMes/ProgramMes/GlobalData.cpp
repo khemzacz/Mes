@@ -31,23 +31,23 @@ void GlobalData::pobierz_dane()
 				break;
 			else if (test == "Me:")
 			{
-				set_Me((int)wartosc);
+				setMe((int)wartosc);
 			}
 			else if (test == "Mn:")
 			{
-				set_Mn((int)wartosc);
+				setMn((int)wartosc);
 			}
 			else if (test == "L:")
 			{
-				set_L(wartosc);
+				setL(wartosc);
 			}
 			else if (test == "S:")
 			{
-				set_S(wartosc);
+				setS(wartosc);
 			}
 			else if (test == "K:")
 			{
-				set_K(wartosc);
+				setK(wartosc);
 			}
 			//cout << test << "\t" << wartosc << endl;
 		}
@@ -62,55 +62,65 @@ void GlobalData::pobierz_dane()
 
 void GlobalData::wypisz_dane()
 {
-	cout <<endl<< "Liczba Elementow (Me): " << get_Me()<<endl;
-	cout << "Liczba Wezlow (Mn): " << get_Mn() << endl;
-	cout << "DLugosc (L): " << get_L() << endl;
-	cout << "Powierzchnia (S): " << get_S() << endl;
-	cout << "Wspolczynnik przewodzenia ciepla (K): " << get_K() << endl;
+	cout <<endl<< "Liczba Elementow (Me): " << getMe()<<endl;
+	cout << "Liczba Wezlow (Mn): " << getMn() << endl;
+	cout << "DLugosc (L): " << getL() << endl;
+	cout << "Powierzchnia (S): " << getS() << endl;
+	cout << "Wspolczynnik przewodzenia ciepla (K): " << getK() << endl;
 }
 
-void GlobalData::set_Me(int n)
+void GlobalData::setMe(int n)
 {
-	Me = n;
+	this->Me = n;
 }
-void GlobalData::set_Mn(int n)
+void GlobalData::setMn(int n)
 {
-	Mn = n;
+	this->Mn = n;
 }
-void GlobalData::set_L(double n)
+void GlobalData::setL(double n)
 {
-	L = n;
+	this->L = n;
 }
-void GlobalData::set_S(double n)
+void GlobalData::setS(double n)
 {
-	S = n;
+	this->S = n;
 }
-void GlobalData::set_K(double n)
+void GlobalData::setK(double n)
 {
-	K = n;
+	this->K = n;
 }
 
-int GlobalData::get_Me()
+void GlobalData::setQ()
+{
+	this->q = q;
+}
+
+int GlobalData::getMe()
 {
 	return Me;
 }
 
-int GlobalData::get_Mn()
+int GlobalData::getMn()
 {
 	return Mn;
 }
 
-double GlobalData::get_L()
+double GlobalData::getL()
 {
 	return L;
 }
 
-double GlobalData::get_S()
+double GlobalData::getS()
 {
 	return S;
 }
 
-double GlobalData::get_K()
+double GlobalData::getK()
 {
 	return K;
+}
+
+double GlobalData::getQ()
+{
+	return (this->q);
 }

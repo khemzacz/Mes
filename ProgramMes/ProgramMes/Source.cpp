@@ -1,21 +1,26 @@
+#pragma once
 #include <iostream>
 #include <cstdio>
 #include <math.h>
 #include <fstream>
 #include <string>
 #include "GlobalData.h"
-#include "Source.h"
+#include "FEM_GRID.h"
 
 using namespace std;
 
 
-
-
 int main()
 {
-	globaldata = new GlobalData();
+	GlobalData* globaldata = new GlobalData();
+	FEM_GRID* fem_grid = new FEM_GRID(globaldata);
+
 	globaldata->pobierz_dane();
 	globaldata->wypisz_dane();
+
+	fem_grid->generateFEM_GRID();
+
+
 
 	system("PAUSE");
 

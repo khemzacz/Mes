@@ -6,7 +6,13 @@ public:
 	Node(long ID, double q, double alfa_d_t);
 	~Node();
 
-	void set_t(double t);
+	void setT(double t);
+	void setQ(double q);
+	void setAlfaDT(double alfaDT);
+
+	double getT();
+	double getQ();
+	double getAlfaDT();
 
 private:
 	long ID;

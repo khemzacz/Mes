@@ -5,5 +5,11 @@
 #include <fstream>
 #include <string>
 #include "GlobalData.h"
+#include "FEM_GRID.h"
+#include "element.h"
 
-GlobalData* globaldata;
+
+
+
+//globaldata = new GlobalData();
+//fem_grid = new FEM_GRID();

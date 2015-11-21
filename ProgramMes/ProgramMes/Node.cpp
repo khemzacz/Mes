@@ -17,7 +17,34 @@ Node::~Node()
 {
 }
 
-void Node::set_t(double t)
+void Node::setT(double t)
 {
 	this->t = t;
 }
+
+void Node::setAlfaDT(double alfaDT)
+{
+	this->alfa_d_t = alfaDT;
+}
+
+void Node::setQ(double q)
+{
+	this->q = q;
+}
+
+
+double Node::getT()
+{
+	return (this->t);
+}
+
+double Node::getAlfaDT()
+{
+	return (this->alfa_d_t);
+}
+
+double Node::getQ()
+{
+	return(this->q);
+}
+

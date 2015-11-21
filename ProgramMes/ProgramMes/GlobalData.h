@@ -5,16 +5,18 @@ public:
 	GlobalData();
 	~GlobalData();
 
-	void set_Me(int n);
-	void set_Mn(int n);
-	void set_L(double n);
-	void set_S(double n);
-	void set_K(double n);
-	int get_Me();
-	int get_Mn();
-	double get_L();
-	double get_S();
-	double get_K();
+	void setMe(int n);
+	void setMn(int n);
+	void setL(double n);
+	void setS(double n);
+	void setK(double n);
+	void setQ();
+	int getMe();
+	int getMn();
+	double getL();
+	double getS();
+	double getK();
+	double getQ();
 	
 	void pobierz_dane();
 	void wypisz_dane();
@@ -22,6 +24,7 @@ public:
 private:
 	int Me, Mn;
 	double L, S, K;
+	double q;
 
 
 };
