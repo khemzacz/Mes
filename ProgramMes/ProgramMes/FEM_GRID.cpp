@@ -103,19 +103,19 @@ void FEM_GRID::buildGlobalMatrixAndVector(int wymiar)
 	// cout << endl << H_globalne[2][2] << endl; 
 
 	P_lokalne = elementy[0]->getP_lokalne();
-	P_globalne[0] += P_lokalne[0];
-	P_globalne[1] += P_lokalne[1];
+	P_globalne[0] += P_lokalne[0] * -1;
+	P_globalne[1] += P_lokalne[1] * -1;
 	P_lokalne = elementy[1]->getP_lokalne();
-	P_globalne[1] += P_lokalne[0];
-	P_globalne[2] += P_lokalne[1];
-	for (int i = 0; i < 3; i++)
+	P_globalne[1] += P_lokalne[0]*-1;
+	P_globalne[2] += P_lokalne[1]*-1;
+	/*for (int i = 0; i < 3; i++)
 	{
 		for (int j = 0; j < 3; j++)
 		{
 			cout << H_globalne[i][j] << " ";
 		}
 		cout << endl;
-	} 
+	} */
 #define Hg H_globalne
 #define Pg P_globalne
 	double W = Hg[0][0] * Hg[1][1] * Hg[2][2] + Hg[1][0] * Hg[2][1] * Hg[0][2]
@@ -130,7 +130,7 @@ void FEM_GRID::buildGlobalMatrixAndVector(int wymiar)
 	double Wt3 = Hg[0][0] * Hg[1][1] * Pg[2] + Hg[1][0] * Hg[2][1] * Pg[0]
 		+ Hg[2][0] * Hg[0][1] * Pg[2] - Hg[2][0] * Hg[1][1] * Pg[0]
 		- Pg[1] * Hg[2][1] * Hg[0][0] - Pg[2] * Hg[0][1] * Hg[1][0];
-	 cout << "Wt2: " << Wt2 << endl;
+	
 	cout << "t1: " << Wt1 / W << endl;
 	cout << "t2: " << Wt2 / W << endl;
 	cout << "t3: " << Wt3 / W << endl;
