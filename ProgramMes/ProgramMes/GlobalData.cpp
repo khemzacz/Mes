@@ -193,6 +193,7 @@ double GlobalData::getT()
 
 double** GlobalData::getH_globalne()
 {
+	// cout << endl<< H_globalne << endl;  adres OK
 	return (this->H_globalne);
 }
 

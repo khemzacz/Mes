@@ -3,7 +3,7 @@ Mn:	3
 L:		5
 S:		2
 K:		50
-Q:		-300
+Q:		-150
 Alfa:	10
 T:		400
 KONIEC
