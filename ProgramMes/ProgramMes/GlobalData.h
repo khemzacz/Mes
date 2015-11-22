@@ -12,6 +12,7 @@ public:
 	void setK(double n);
 	void setQ(double q);
 	void setAlfa(double alfa);
+	void setT(double T);
 	int getMe();
 	int getMn();
 	double getL();
@@ -19,15 +20,26 @@ public:
 	double getK();
 	double getQ();
 	double getAlfa();
-	
+	double getT();
+
+
+	double** getH_globalne();
+	double* getP_globalne();
+	double* getWektorT();
+
 	void pobierz_dane();
 	void wypisz_dane();
-	
+	void tworzGlobalnaMacierzH(int wymiar);
+	void tworzGlobalnyWektorP(int wymiar);
+	void tworzWektorT(int wymiar);
+
 private:
 	int Me, Mn;
 	double L, S, K;
-	double q, alfa;
+	double q, alfa, T;
 
-
+	double** H_globalne;
+	double* P_globalne;
+	double* WektorT;
 };
 

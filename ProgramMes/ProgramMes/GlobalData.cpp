@@ -57,6 +57,10 @@ void GlobalData::pobierz_dane()
 			{
 				setAlfa(wartosc);
 			}
+			else if (test == "T:")
+			{
+				setT(wartosc);
+			}
 			//cout << test << "\t" << wartosc << endl;
 		}
 		plik.close();
@@ -77,6 +81,32 @@ void GlobalData::wypisz_dane()
 	cout << "Wspolczynnik przewodzenia ciepla (K): " << getK() << endl;
 	cout << "Q (q): " << getQ() << endl;
 	cout << "Alfa (alfa): " << getAlfa() << endl;
+	cout << "Temperatura: " << getT() << endl;
+}
+
+void GlobalData::tworzGlobalnaMacierzH(int wymiar)
+{
+	this->H_globalne = new double*[wymiar];
+	for (int i = 0; i < wymiar; i++)
+	{
+		H_globalne[i] = new double[3];
+	}
+
+	for (int i = 0; i < wymiar; i++)
+	{
+		for (int j = 0; j < wymiar; j++)
+			H_globalne[i][j] = 0;
+	}
+
+}
+
+void GlobalData::tworzGlobalnyWektorP(int wymiar)
+{
+	this->P_globalne = new double[wymiar];
+	for (int i = 0; i < wymiar; i++)
+	{
+		P_globalne[i] = 0;
+	}
 }
 
 void GlobalData::setMe(int n)
@@ -109,6 +139,17 @@ void GlobalData::setAlfa(double alfa)
 {
 	this->alfa = alfa;
 }
+
+void GlobalData::setT(double T)
+{
+	this->T = T;
+}
+
+void GlobalData::tworzWektorT(int wymiar)
+{
+	this->WektorT = new double[wymiar];
+}
+
 
 int GlobalData::getMe()
 {
@@ -143,4 +184,24 @@ double GlobalData::getQ()
 double GlobalData::getAlfa()
 {
 	return (this->alfa);
+}
+
+double GlobalData::getT()
+{
+	return (this->T);
+}
+
+double** GlobalData::getH_globalne()
+{
+	return (this->H_globalne);
+}
+
+double* GlobalData::getP_globalne()
+{
+	return (this->P_globalne);
+}
+
+double* GlobalData::getWektorT()
+{
+	return (this->WektorT);
 }

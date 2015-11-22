@@ -8,10 +8,11 @@ public:
 	~Element();
 
 	void setH_lokalne(double wartosc, int w, int k);
+	void setP_lokalne(double wartosc, int k);
 
 	double getDl();
 	double** getH_lokalne();
-
+	double* getP_lokalne();
 
 
 private:
@@ -22,6 +23,6 @@ private:
 	double S;
 	double K;
 	double** H_lokalne;
-	double P_lokalne[2];
+	double* P_lokalne;
 };
 

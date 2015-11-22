@@ -16,6 +16,8 @@ Element::Element(long ID, long NOP1, long NOP2, double L, int Me)
 	{
 		H_lokalne[i] = new double[2];
 	}
+
+	P_lokalne = new double[2];
 }
 
 
@@ -36,6 +38,15 @@ double** Element::getH_lokalne()
 
 void Element::setH_lokalne(double wartosc, int w, int k)
 {
-	H_lokalne[w][k] = wartosc;
+	this->H_lokalne[w][k] = wartosc;
 }
 
+void Element::setP_lokalne(double wartosc, int k)
+{
+	this->P_lokalne[k] = wartosc;
+}
+
+double* Element::getP_lokalne()
+{
+	return (this->P_lokalne);
+}

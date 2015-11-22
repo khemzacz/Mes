@@ -10,10 +10,10 @@ public:
 	~FEM_GRID();
 
 
-	void setBoundryConditions(double q, double alfa_d_t);
+	void setBoundryConditions();
 	void generateFEM_GRID();
 	void calculateLocalMatriciesAndLocalVectors();
-
+	void buildGlobalMatrixAndVector(int wymiar);
 private:
 	Element** elementy;
 	Node** wezly;

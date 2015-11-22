@@ -19,7 +19,9 @@ int main()
 	globaldata->wypisz_dane();
 
 	fem_grid->generateFEM_GRID();
-
+	fem_grid->setBoundryConditions();
+	fem_grid->calculateLocalMatriciesAndLocalVectors();
+	fem_grid->buildGlobalMatrixAndVector(3);
 
 
 	system("PAUSE");
