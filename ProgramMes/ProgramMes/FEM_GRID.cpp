@@ -41,15 +41,16 @@ void FEM_GRID::generateFEM_GRID()
 
 void FEM_GRID::setBoundryConditions()
 {
-	wezly[0]->setQ(this->globaldata->getQ());
-	//wezly[3]->setAlfaDT(this->globaldata->getAlfaDT());
+	wezly[0]->setQ(this->gb->getQ()*this->gb->getS());
+	wezly[gb->getMn()-1]->setAlfaDT(this->gb->getS()*this->gb->getAlfa()*this->gb->getT());
 }
 
 void FEM_GRID::calculateLocalMatriciesAndLocalVectors()
 {
 	double Sk = gb->getS()*gb->getK();
 	double** H_lokalne;
-	for (int i = 0; i < gb->getMe()-1; i++)
+	int i = 0;
+	for (; i < gb->getMe()-1; i++)
 	{
 		H_lokalne = elementy[i]->getH_lokalne();
 		H_lokalne[0][0] = Sk/elementy[i]->getDl() ;
@@ -57,22 +58,28 @@ void FEM_GRID::calculateLocalMatriciesAndLocalVectors()
 		H_lokalne[0][1] =- 1 * Sk / elementy[i]->getDl();
 		H_lokalne[1][1] = Sk / elementy[i]->getDl();
 	}
-	H_lokalne = elementy[1]->getH_lokalne();
-	H_lokalne[0][0] = Sk / elementy[1]->getDl();
-	H_lokalne[1][0] =  -1 * Sk / elementy[1]->getDl();
-	H_lokalne[0][1] = -1 * Sk / elementy[1]->getDl();
-	H_lokalne[1][1] = Sk / elementy[1]->getDl()+gb->getAlfa()*gb->getS();
+	H_lokalne = elementy[i]->getH_lokalne();
+	H_lokalne[0][0] = Sk / elementy[i]->getDl();
+	H_lokalne[1][0] =  -1 * Sk / elementy[i]->getDl();
+	H_lokalne[0][1] = -1 * Sk / elementy[i]->getDl();
+	H_lokalne[1][1] = ((Sk / elementy[i]->getDl())+(gb->getAlfa()*gb->getS()));
 
 	double* P_lokalne;
 	P_lokalne = elementy[0]->getP_lokalne();
 	(P_lokalne[0] = 1 * gb->getQ()*gb->getS());
 	(P_lokalne[1] = 0);
-	P_lokalne = elementy[1]->getP_lokalne();
+	i = 1;
+	for (; i < gb->getMe() - 1; i++)
+	{
+		P_lokalne = elementy[i]->getP_lokalne();
+		(P_lokalne[0] = 0);
+		(P_lokalne[1] = 0);
+
+	}
+
+	P_lokalne = elementy[i]->getP_lokalne();
 	(P_lokalne[0] = 0);
-	(P_lokalne[1] = -1 *gb->getAlfa()*gb->getT()*gb->getS());
-
-
-
+	(P_lokalne[1] = -1 * gb->getAlfa()*gb->getT()*gb->getS());
 	
 }
 
@@ -86,6 +93,65 @@ void FEM_GRID::buildGlobalMatrixAndVector(int wymiar)
 	
 	double **H_lokalne;
 	double *P_lokalne;
+
+
+	for (int i = 0; i < gb->getMe(); i++)
+	{
+		H_lokalne = elementy[i]->getH_lokalne();
+		H_globalne[0+i][0+i] += H_lokalne[0][0];
+		H_globalne[1+i][0+i] += H_lokalne[1][0];
+		H_globalne[0+i][1+i] += H_lokalne[0][1];
+		H_globalne[1+i][1+i] += H_lokalne[1][1];
+
+		P_lokalne = elementy[i]->getP_lokalne();
+		P_globalne[0+i] += P_lokalne[0] * -1;
+		P_globalne[1+i] += P_lokalne[1] * -1;
+		
+	}
+
+	gb->wypiszHg();
+	gb->wypiszPg();
+
+
+#define Hg H_globalne
+#define Pg P_globalne
+
+	for (int i = 1; i < gb->getMn(); i++)
+	{
+		for (int j = 0; j < gb->getMn(); j++)
+		{
+			Hg[i][j] -= Hg[i][j] * (Hg[i][i-1] / Hg[i-1][i-1]);
+			
+		}
+		Pg[i] -= Pg[i-1] * (Hg[i][i-1] / Hg[i-1][i-1]);
+	}
+
+
+
+	gb->wypiszHg();
+	gb->wypiszPg();
+
+	for (int i = gb->getMn()-1; i >0; i--)
+	{
+		for (int j = gb->getMn()-1; j >0 ; j--)
+		{
+			Hg[i][j] -= Hg[i][j] * (Hg[i][i - 1] / Hg[i - 1][i - 1]);
+
+		}
+		Pg[i] -= Pg[i - 1] * (Hg[i][i - 1] / Hg[i - 1][i - 1]);
+	}
+
+
+
+	gb->tworzWektorT(gb->getMn());
+	double* wektor_rozwiazania = gb->getWektorT();
+	for (int i =0; i < gb->getMn(); i++)
+	{
+		cout << "t" << i<< ": " << (wektor_rozwiazania[i] = Pg[i]) << endl;
+	}
+
+	/*
+
 	//cout << endl << H_globalne[0][0] <<endl;
 	H_lokalne = elementy[0]->getH_lokalne();
 	H_globalne[0][0] = H_lokalne[0][0];
@@ -108,6 +174,8 @@ void FEM_GRID::buildGlobalMatrixAndVector(int wymiar)
 	P_lokalne = elementy[1]->getP_lokalne();
 	P_globalne[1] += P_lokalne[0]*-1;
 	P_globalne[2] += P_lokalne[1]*-1;
+
+	*/
 	/*for (int i = 0; i < 3; i++)
 	{
 		for (int j = 0; j < 3; j++)
@@ -116,6 +184,7 @@ void FEM_GRID::buildGlobalMatrixAndVector(int wymiar)
 		}
 		cout << endl;
 	} */
+	/*
 #define Hg H_globalne
 #define Pg P_globalne
 	double W = Hg[0][0] * Hg[1][1] * Hg[2][2] + Hg[1][0] * Hg[2][1] * Hg[0][2]
@@ -134,4 +203,6 @@ void FEM_GRID::buildGlobalMatrixAndVector(int wymiar)
 	cout << "t1: " << Wt1 / W << endl;
 	cout << "t2: " << Wt2 / W << endl;
 	cout << "t3: " << Wt3 / W << endl;
+
+	*/
 }

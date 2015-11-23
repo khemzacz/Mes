@@ -33,6 +33,10 @@ public:
 	void tworzGlobalnyWektorP(int wymiar);
 	void tworzWektorT(int wymiar);
 
+
+	void wypiszHg();
+	void wypiszPg();
+
 private:
 	int Me, Mn;
 	double L, S, K;

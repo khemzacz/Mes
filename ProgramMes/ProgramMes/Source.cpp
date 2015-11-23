@@ -21,7 +21,7 @@ int main()
 	fem_grid->generateFEM_GRID();
 	fem_grid->setBoundryConditions();
 	fem_grid->calculateLocalMatriciesAndLocalVectors();
-	fem_grid->buildGlobalMatrixAndVector(3);
+	fem_grid->buildGlobalMatrixAndVector(globaldata->getMn());
 
 
 	system("PAUSE");

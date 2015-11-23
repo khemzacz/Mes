@@ -109,6 +109,30 @@ void GlobalData::tworzGlobalnyWektorP(int wymiar)
 	}
 }
 
+void GlobalData::wypiszHg()
+{
+	cout << endl;
+	for (int i = 0; i < this->getMn(); i++)
+	{
+		for (int j = 0; j < this->getMn(); j++)
+		{
+			cout << this->H_globalne[i][j] << " ";
+		}
+		cout << endl;
+	}
+}
+
+void GlobalData::wypiszPg()
+{
+	cout << endl;
+	for (int j = 0; j < this->getMn(); j++)
+	{
+		cout << this->P_globalne[j] << " ";
+	}
+	cout << endl;
+
+}
+
 void GlobalData::setMe(int n)
 {
 	this->Me = n;
