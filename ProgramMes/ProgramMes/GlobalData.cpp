@@ -89,7 +89,7 @@ void GlobalData::tworzGlobalnaMacierzH(int wymiar)
 	this->H_globalne = new double*[wymiar];
 	for (int i = 0; i < wymiar; i++)
 	{
-		H_globalne[i] = new double[3];
+		H_globalne[i] = new double[wymiar+1];
 	}
 
 	for (int i = 0; i < wymiar; i++)
@@ -114,7 +114,7 @@ void GlobalData::wypiszHg()
 	cout << endl;
 	for (int i = 0; i < this->getMn(); i++)
 	{
-		for (int j = 0; j < this->getMn(); j++)
+		for (int j = 0; j <= this->getMn(); j++)
 		{
 			cout << this->H_globalne[i][j] << " ";
 		}

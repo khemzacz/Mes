@@ -108,47 +108,75 @@ void FEM_GRID::buildGlobalMatrixAndVector(int wymiar)
 		P_globalne[1+i] += P_lokalne[1] * -1;
 		
 	}
-
-	gb->wypiszHg();
-	gb->wypiszPg();
-
-
 #define Hg H_globalne
 #define Pg P_globalne
 
-	for (int i = 1; i < gb->getMn(); i++)
+	for (int i = 0; i < gb->getMn(); i++)
 	{
-		for (int j = 0; j < gb->getMn(); j++)
-		{
-			Hg[i][j] -= Hg[i][j] * (Hg[i][i-1] / Hg[i-1][i-1]);
-			
-		}
-		Pg[i] -= Pg[i-1] * (Hg[i][i-1] / Hg[i-1][i-1]);
+		Hg[i][gb->getMn() ] = Pg[i];
 	}
-
-
 
 	gb->wypiszHg();
-	gb->wypiszPg();
+//	gb->wypiszPg();
 
-	for (int i = gb->getMn()-1; i >0; i--)
+
+
+	for (int i = 0; i < gb->getMn(); i++)
 	{
-		for (int j = gb->getMn()-1; j >0 ; j--)
+		for (int k= i + 1; k < gb->getMn(); k++)
 		{
-			Hg[i][j] -= Hg[i][j] * (Hg[i][i - 1] / Hg[i - 1][i - 1]);
-
+			if (Hg[i][i] < Hg[k][i])
+			{
+				for (int j = 0; j <= gb->getMn(); j++)
+				{
+					double temp = Hg[i][j];
+					Hg[i][j] = Hg[k][j];
+					Hg[k][j] = temp;
+				}
+			}
 		}
-		Pg[i] -= Pg[i - 1] * (Hg[i][i - 1] / Hg[i - 1][i - 1]);
+	}
+	//gb->wypiszHg();
+
+	for (int i = 0; i < gb->getMn() - 1; i++)
+	{
+		for (int k = i + 1; k < gb->getMn(); k++)
+		{
+			double t = Hg[k][i] / Hg[i][i];
+			for (int j = 0; j <= gb->getMn(); j++)
+			{
+				Hg[k][j] = Hg[k][j] - t*Hg[i][j];
+			}
+		}
 	}
 
 
+//	gb->wypiszHg();
+//	gb->wypiszPg();
 
 	gb->tworzWektorT(gb->getMn());
-	double* wektor_rozwiazania = gb->getWektorT();
-	for (int i =0; i < gb->getMn(); i++)
+	double* w_r = gb->getWektorT();
+
+	for (int i = gb->getMn() - 1; i >= 0; i--)
+	{
+		w_r[i] = Hg[i][gb->getMn()];
+
+		for (int j = 0; j <= gb->getMn(); j++)
+			if (j != i)
+				w_r[i] = w_r[i] - Hg[i][j] * w_r[j];
+		w_r[i] = w_r[i] / Hg[i][i];
+	}
+
+	for (int i = 0; i < gb->getMn(); i++)
+	{
+		cout << "t" << i << " " << w_r[i] << endl;
+	}
+
+
+	/*for (int i =0; i < gb->getMn(); i++)
 	{
 		cout << "t" << i<< ": " << (wektor_rozwiazania[i] = Pg[i]) << endl;
-	}
+	}*/
 
 	/*
 
