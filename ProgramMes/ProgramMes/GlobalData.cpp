@@ -133,6 +133,14 @@ void GlobalData::wypiszPg()
 
 }
 
+void GlobalData::wypiszWektorT()
+{
+	for (int i = 0; i < Mn; i ++)
+	{ 
+		cout << "t" << i << " " << WektorT[i] << endl;
+	}
+}
+
 void GlobalData::setMe(int n)
 {
 	this->Me = n;
@@ -174,6 +182,16 @@ void GlobalData::tworzWektorT(int wymiar)
 	this->WektorT = new double[wymiar];
 }
 
+void GlobalData::free()
+{
+	for (int i = 0; i < this->getMn(); i++)
+		{
+			delete[] H_globalne[i];
+		}
+	delete[] H_globalne;
+	delete[] P_globalne;
+	delete[] WektorT;
+}
 
 int GlobalData::getMe()
 {

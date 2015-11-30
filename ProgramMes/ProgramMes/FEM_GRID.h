@@ -14,6 +14,7 @@ public:
 	void generateFEM_GRID();
 	void calculateLocalMatriciesAndLocalVectors();
 	void buildGlobalMatrixAndVector(int wymiar);
+	void free();
 private:
 	Element** elementy;
 	Node** wezly;

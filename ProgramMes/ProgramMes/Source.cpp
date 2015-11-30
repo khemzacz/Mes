@@ -22,9 +22,15 @@ int main()
 	fem_grid->setBoundryConditions();
 	fem_grid->calculateLocalMatriciesAndLocalVectors();
 	fem_grid->buildGlobalMatrixAndVector(globaldata->getMn());
+	globaldata->wypiszWektorT();
+	
 
+	
 
+	fem_grid->free();
+	globaldata->free();
+	delete globaldata;
+	delete fem_grid;
 	system("PAUSE");
-
 	return 0;
 }

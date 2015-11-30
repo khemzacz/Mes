@@ -32,10 +32,12 @@ public:
 	void tworzGlobalnaMacierzH(int wymiar);
 	void tworzGlobalnyWektorP(int wymiar);
 	void tworzWektorT(int wymiar);
-
+	void free();
+	
 
 	void wypiszHg();
 	void wypiszPg();
+	void wypiszWektorT();
 
 private:
 	int Me, Mn;

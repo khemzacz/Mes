@@ -9,6 +9,7 @@ public:
 
 	void setH_lokalne(double wartosc, int w, int k);
 	void setP_lokalne(double wartosc, int k);
+	void free();
 
 	double getDl();
 	double** getH_lokalne();

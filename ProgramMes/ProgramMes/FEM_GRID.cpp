@@ -21,16 +21,16 @@ FEM_GRID::~FEM_GRID()
 
 void FEM_GRID::generateFEM_GRID()
 {
-	elementy = new Element*[this->globaldata->getMe()];
-	wezly = new Node*[this->globaldata->getMn()];
+	elementy = new Element*[gb->getMe()];
+	wezly = new Node*[gb->getMn()];
 	/* tworze wezly i elementy */
 
-	for (int i = 0; i < this->globaldata->getMn(); i++)
+	for (int i = 0; i < gb->getMn(); i++)
 	{
 		wezly[i] = new Node(i);
 	}
 
-	for (int i = 0; i < this->globaldata->getMe();i++) // od razu w konstruktorze podaje id wezlow
+	for (int i = 0; i < gb->getMe();i++) // od razu w konstruktorze podaje id wezlow
 	{
 		elementy[i] = new Element(i,i,(i+1),gb->getL(),gb->getMe()); // (id elementu, id pierwszego wezla dla elementu i, id drugiego wezla dla elementu i)
 	}
@@ -47,21 +47,21 @@ void FEM_GRID::setBoundryConditions()
 
 void FEM_GRID::calculateLocalMatriciesAndLocalVectors()
 {
-	double Sk = gb->getS()*gb->getK();
+	double Sk = (gb->getS()*gb->getK());
 	double** H_lokalne;
 	int i = 0;
 	for (; i < gb->getMe()-1; i++)
 	{
 		H_lokalne = elementy[i]->getH_lokalne();
 		H_lokalne[0][0] = Sk/elementy[i]->getDl() ;
-		H_lokalne[1][0] = - 1 * Sk / elementy[i]->getDl();
-		H_lokalne[0][1] =- 1 * Sk / elementy[i]->getDl();
+		H_lokalne[1][0] = - 1 *( Sk / elementy[i]->getDl());
+		H_lokalne[0][1] =- 1 * (Sk / elementy[i]->getDl());
 		H_lokalne[1][1] = Sk / elementy[i]->getDl();
 	}
 	H_lokalne = elementy[i]->getH_lokalne();
 	H_lokalne[0][0] = Sk / elementy[i]->getDl();
-	H_lokalne[1][0] =  -1 * Sk / elementy[i]->getDl();
-	H_lokalne[0][1] = -1 * Sk / elementy[i]->getDl();
+	H_lokalne[1][0] =  -1 * (Sk / elementy[i]->getDl());
+	H_lokalne[0][1] = -1 * (Sk / elementy[i]->getDl());
 	H_lokalne[1][1] = ((Sk / elementy[i]->getDl())+(gb->getAlfa()*gb->getS()));
 
 	double* P_lokalne;
@@ -116,7 +116,7 @@ void FEM_GRID::buildGlobalMatrixAndVector(int wymiar)
 		Hg[i][gb->getMn() ] = Pg[i];
 	}
 
-	gb->wypiszHg();
+//	gb->wypiszHg();
 //	gb->wypiszPg();
 
 
@@ -166,11 +166,11 @@ void FEM_GRID::buildGlobalMatrixAndVector(int wymiar)
 				w_r[i] = w_r[i] - Hg[i][j] * w_r[j];
 		w_r[i] = w_r[i] / Hg[i][i];
 	}
-
-	for (int i = 0; i < gb->getMn(); i++)
+	
+	/*for (int i = 0; i < gb->getMn(); i++)
 	{
 		cout << "t" << i << " " << w_r[i] << endl;
-	}
+	}*/
 
 
 	/*for (int i =0; i < gb->getMn(); i++)
@@ -233,4 +233,21 @@ void FEM_GRID::buildGlobalMatrixAndVector(int wymiar)
 	cout << "t3: " << Wt3 / W << endl;
 
 	*/
+}
+
+void FEM_GRID::free()
+{
+	for (int j = 0; j < gb->getMe(); j++)
+	{
+		elementy[j]->free();
+		delete elementy[j];
+	}
+
+	for (int i = 0; i < gb->getMn(); i++)
+	{
+		delete wezly[i];
+	}
+
+	delete elementy;
+	delete wezly;
 }

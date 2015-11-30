@@ -46,6 +46,14 @@ void Element::setP_lokalne(double wartosc, int k)
 	this->P_lokalne[k] = wartosc;
 }
 
+void Element::free()
+{
+	delete[] H_lokalne[0];
+	delete[] H_lokalne[1];
+	delete[] H_lokalne;
+	delete[] P_lokalne;
+}
+
 double* Element::getP_lokalne()
 {
 	return (this->P_lokalne);
