@@ -139,6 +139,15 @@ void GlobalData::wypiszWektorT()
 	{ 
 		cout << "t" << i << " " << WektorT[i] << endl;
 	}
+	std::fstream plik("wynik.txt", std::ios::out);
+	if (plik.good() == true)
+	{
+		for (int i = 0; i < Mn; i++)
+		plik<< "t" << i << " " << WektorT[i] << endl;
+		plik.close();
+	}
+
+
 }
 
 void GlobalData::setMe(int n)
