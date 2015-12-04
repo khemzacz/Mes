@@ -186,9 +186,19 @@ void GlobalData::setT(double T)
 	this->T = T;
 }
 
+void GlobalData::setWektorT(double* T)
+{
+	this->WektorT = T;
+}
+
+
 void GlobalData::tworzWektorT(int wymiar)
 {
 	this->WektorT = new double[wymiar];
+	for (int i = 0; i < wymiar; i++)
+	{
+		this->WektorT[i] = 0.0;
+	}
 }
 
 void GlobalData::free()

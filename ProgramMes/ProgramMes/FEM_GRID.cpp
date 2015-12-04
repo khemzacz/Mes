@@ -151,22 +151,29 @@ void FEM_GRID::buildGlobalMatrixAndVector(int wymiar)
 	}
 
 
-//	gb->wypiszHg();
-//	gb->wypiszPg();
+	//gb->wypiszHg();
+	//gb->wypiszPg();
 
-	gb->tworzWektorT(gb->getMn());
-	double* w_r = gb->getWektorT();
-
+	//gb->tworzWektorT(gb->getMn());
+	//double* w_r = gb->getWektorT();
+	
+	double* w_r = new double[gb->getMn()];
+	double tester = 0.0;
 	for (int i = gb->getMn() - 1; i >= 0; i--)
 	{
-		w_r[i] = Hg[i][gb->getMn()];
+		w_r[i] = (Hg[i][gb->getMn()]);
 
 		for (int j = 0; j <= gb->getMn(); j++)
 			if (j != i)
-				w_r[i] = w_r[i] - Hg[i][j] * w_r[j];
-		w_r[i] = w_r[i] / Hg[i][i];
+				w_r[i] =( w_r[i] - Hg[i][j] * w_r[j]);
+		w_r[i] = (w_r[i] / Hg[i][i]);
+		//cout << endl << w_r[i]<<endl;
 	}
-	
+	//gb->wypiszHg();
+	//gb->wypiszPg();
+
+	gb->setWektorT(w_r);
+	//gb->set
 	/*for (int i = 0; i < gb->getMn(); i++)
 	{
 		cout << "t" << i << " " << w_r[i] << endl;

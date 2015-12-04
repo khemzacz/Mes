@@ -13,6 +13,7 @@ public:
 	void setQ(double q);
 	void setAlfa(double alfa);
 	void setT(double T);
+	void setWektorT(double* T);
 	int getMe();
 	int getMn();
 	double getL();
