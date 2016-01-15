@@ -13,7 +13,14 @@ public:
 	void setQ(double q);
 	void setAlfa(double alfa);
 	void setT(double T);
-	void setWektorT(double* T);
+	void setrMax(double);
+	void setdeltaR(double);
+	void setdeltaTau(double);
+	void setc(double);
+	void setp(double);
+	void sett0(double);
+	void settn(double);
+
 	int getMe();
 	int getMn();
 	double getL();
@@ -22,31 +29,22 @@ public:
 	double getQ();
 	double getAlfa();
 	double getT();
-
-
-	double** getH_globalne();
-	double* getP_globalne();
-	double* getWektorT();
+	double getrMax();
+	double getdeltaR();
+	double getdeltaTau();
+	double getc();
+	double getp();
+	double gett0();
+	double gettn();
 
 	void pobierz_dane();
 	void wypisz_dane();
-	void tworzGlobalnaMacierzH(int wymiar);
-	void tworzGlobalnyWektorP(int wymiar);
-	void tworzWektorT(int wymiar);
-	void free();
-	
 
-	void wypiszHg();
-	void wypiszPg();
-	void wypiszWektorT();
 
 private:
 	int Me, Mn;
-	double L, S, K;
-	double q, alfa, T;
-
-	double** H_globalne;
-	double* P_globalne;
-	double* WektorT;
+	double L, S, K; // 
+	double q, alfa, T; // 
+	double rMax, deltaR, deltaTau, c, p, t0, tn;
 };
 

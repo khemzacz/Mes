@@ -1,9 +1,20 @@
-Me:	3
-Mn:	4
+Me:	8
+Mn:	9
 L:	5.0
 S:	2.0
 K:	50.0
+rMax:	0.08
+deltaR:	0.01
+deltaTau:	50
+c:	700
+p:	7800
+t0:	100
+tn:	200
+
 Q:	-150.0
 Alfa:	10.0
 T:	400.0
+
+
+
 KONIEC

@@ -61,6 +61,34 @@ void GlobalData::pobierz_dane()
 			{
 				setT(wartosc);
 			}
+			else if (test == "rMax:")
+			{
+				setrMax(wartosc);
+			}
+			else if (test == "deltaR:")
+			{
+				setdeltaR(wartosc);
+			}
+			else if (test == "deltaTau:")
+			{
+				setdeltaTau(wartosc);
+			}
+			else if (test == "c:")
+			{
+				setc(wartosc);
+			}
+			else if (test == "p:")
+			{
+				setp(wartosc);
+			}
+			else if (test == "t0:")
+			{
+				sett0(wartosc);
+			}
+			else if (test == "tn:")
+			{
+				settn(wartosc);
+			}
 			//cout << test << "\t" << wartosc << endl;
 		}
 		plik.close();
@@ -82,73 +110,18 @@ void GlobalData::wypisz_dane()
 	cout << "Q (q): " << getQ() << endl;
 	cout << "Alfa (alfa): " << getAlfa() << endl;
 	cout << "Temperatura: " << getT() << endl;
+	cout << "rMax: " << getrMax() << "\t" ;
+	cout << "deltaR: " << getdeltaR() << "\t";
+	cout << "deltaTau: " << getdeltaTau() << endl;
+	cout << "c: " << getc() << "\t";
+	cout << "p: " << getp() << endl;
+	cout << "t0: " << gett0() << "\t";
+	cout << "tn: " << gettn() << "\t";
 }
 
-void GlobalData::tworzGlobalnaMacierzH(int wymiar)
-{
-	this->H_globalne = new double*[wymiar];
-	for (int i = 0; i < wymiar; i++)
-	{
-		H_globalne[i] = new double[wymiar+1];
-	}
-
-	for (int i = 0; i < wymiar; i++)
-	{
-		for (int j = 0; j < wymiar; j++)
-			H_globalne[i][j] = 0;
-	}
-
-}
-
-void GlobalData::tworzGlobalnyWektorP(int wymiar)
-{
-	this->P_globalne = new double[wymiar];
-	for (int i = 0; i < wymiar; i++)
-	{
-		P_globalne[i] = 0;
-	}
-}
-
-void GlobalData::wypiszHg()
-{
-	cout << endl;
-	for (int i = 0; i < this->getMn(); i++)
-	{
-		for (int j = 0; j <= this->getMn(); j++)
-		{
-			cout << this->H_globalne[i][j] << " ";
-		}
-		cout << endl;
-	}
-}
-
-void GlobalData::wypiszPg()
-{
-	cout << endl;
-	for (int j = 0; j < this->getMn(); j++)
-	{
-		cout << this->P_globalne[j] << " ";
-	}
-	cout << endl;
-
-}
-
-void GlobalData::wypiszWektorT()
-{
-	for (int i = 0; i < Mn; i ++)
-	{ 
-		cout << "t" << i << " " << WektorT[i] << endl;
-	}
-	std::fstream plik("wynik.txt", std::ios::out);
-	if (plik.good() == true)
-	{
-		for (int i = 0; i < Mn; i++)
-		plik<< "t" << i << " " << WektorT[i] << endl;
-		plik.close();
-	}
 
 
-}
+
 
 void GlobalData::setMe(int n)
 {
@@ -186,30 +159,39 @@ void GlobalData::setT(double T)
 	this->T = T;
 }
 
-void GlobalData::setWektorT(double* T)
+void GlobalData::setrMax(double sample_var)
 {
-	this->WektorT = T;
+	this->rMax = sample_var;
 }
 
-
-void GlobalData::tworzWektorT(int wymiar)
+void GlobalData::setdeltaR(double sample_var)
 {
-	this->WektorT = new double[wymiar];
-	for (int i = 0; i < wymiar; i++)
-	{
-		this->WektorT[i] = 0.0;
-	}
+	this->deltaR = sample_var;
 }
 
-void GlobalData::free()
+void GlobalData::setdeltaTau(double sample_var)
 {
-	for (int i = 0; i < this->getMn(); i++)
-		{
-			delete[] H_globalne[i];
-		}
-	delete[] H_globalne;
-	delete[] P_globalne;
-	delete[] WektorT;
+	this->deltaTau = sample_var;
+}
+
+void GlobalData::setc(double sample_var)
+{
+	this->c = sample_var;
+}
+
+void GlobalData::setp(double sample_var)
+{
+	this->p = sample_var;
+}
+
+void GlobalData::sett0(double sample_var)
+{
+	this->t0 = sample_var;
+}
+
+void GlobalData::settn(double sample_var)
+{
+	this->tn = sample_var;
 }
 
 int GlobalData::getMe()
@@ -252,18 +234,40 @@ double GlobalData::getT()
 	return (this->T);
 }
 
-double** GlobalData::getH_globalne()
+double GlobalData::getrMax()
 {
-	// cout << endl<< H_globalne << endl;  adres OK
-	return (this->H_globalne);
+	return (this->rMax);
 }
 
-double* GlobalData::getP_globalne()
+double GlobalData::getdeltaR()
 {
-	return (this->P_globalne);
+	return (this->deltaR);
 }
 
-double* GlobalData::getWektorT()
+double GlobalData::getdeltaTau()
 {
-	return (this->WektorT);
+	return (this->deltaTau);;
 }
+
+double GlobalData::getc()
+{
+	return (this->c);
+}
+
+double GlobalData::getp()
+{
+	return (this->p);
+}
+
+double GlobalData::gett0()
+{
+	return (this->t0);
+}
+
+double GlobalData::gettn()
+{
+	return (this->tn);
+}
+
+
+
