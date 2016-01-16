@@ -9,7 +9,7 @@ public:
 	void setMn(int n);
 	void setL(double n);
 	void setS(double n);
-	void setK(double n);
+	void setk(double n);
 	void setQ(double q);
 	void setAlfa(double alfa);
 	void setT(double T);
@@ -25,7 +25,7 @@ public:
 	int getMn();
 	double getL();
 	double getS();
-	double getK();
+	double getk();
 	double getQ();
 	double getAlfa();
 	double getT();
@@ -43,7 +43,7 @@ public:
 
 private:
 	int Me, Mn;
-	double L, S, K; // 
+	double L, S, k; // 
 	double q, alfa, T; // 
 	double rMax, deltaR, deltaTau, c, p, t0, tn;
 };

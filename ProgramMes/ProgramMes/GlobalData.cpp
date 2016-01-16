@@ -45,9 +45,9 @@ void GlobalData::pobierz_dane()
 			{
 				setS(wartosc);
 			}
-			else if (test == "K:")
+			else if (test == "k:")
 			{
-				setK(wartosc);
+				setk(wartosc);
 			}
 			else if (test == "Q:")
 			{
@@ -106,7 +106,7 @@ void GlobalData::wypisz_dane()
 	cout << "Liczba Wezlow (Mn): " << getMn() << endl;
 	cout << "DLugosc (L): " << getL() << endl;
 	cout << "Powierzchnia (S): " << getS() << endl;
-	cout << "Wspolczynnik przewodzenia ciepla (K): " << getK() << endl;
+	cout << "Wspolczynnik przewodzenia ciepla (K): " << getk() << endl;
 	cout << "Q (q): " << getQ() << endl;
 	cout << "Alfa (alfa): " << getAlfa() << endl;
 	cout << "Temperatura: " << getT() << endl;
@@ -114,9 +114,13 @@ void GlobalData::wypisz_dane()
 	cout << "deltaR: " << getdeltaR() << "\t";
 	cout << "deltaTau: " << getdeltaTau() << endl;
 	cout << "c: " << getc() << "\t";
-	cout << "p: " << getp() << endl;
+	cout << "p: " << getp() << "\t";
+	cout << "k: " << getk() << endl;
 	cout << "t0: " << gett0() << "\t";
 	cout << "tn: " << gettn() << "\t";
+
+
+
 }
 
 
@@ -139,9 +143,9 @@ void GlobalData::setS(double n)
 {
 	this->S = n;
 }
-void GlobalData::setK(double n)
+void GlobalData::setk(double n)
 {
-	this->K = n;
+	this->k = n;
 }
 
 void GlobalData::setQ(double q)
@@ -214,9 +218,9 @@ double GlobalData::getS()
 	return S;
 }
 
-double GlobalData::getK()
+double GlobalData::getk()
 {
-	return K;
+	return k;
 }
 
 double GlobalData::getQ()

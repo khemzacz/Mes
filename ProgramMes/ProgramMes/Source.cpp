@@ -18,15 +18,18 @@ int main()
 	globaldata->pobierz_dane();
 	globaldata->wypisz_dane();
 
-	fem_grid->generateFEM_GRID();
-	fem_grid->setBoundryConditions();
+	
+	fem_grid->createElementsAndNodes();
 	fem_grid->calculateLocalMatriciesAndLocalVectors();
-	fem_grid->buildGlobalMatrixAndVector(globaldata->getMn());
-	
+	//fem_grid->generateFEM_GRID();
+	//fem_grid->setBoundryConditions();
+	//fem_grid->calculateLocalMatriciesAndLocalVectors();
+	//fem_grid->buildGlobalMatrixAndVector(globaldata->getMn());
+	//
 
-	
+	//
 
-	fem_grid->free();
+	//fem_grid->free();
 	delete globaldata;
 	delete fem_grid;
 	system("PAUSE");

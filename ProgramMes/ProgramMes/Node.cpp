@@ -13,6 +13,10 @@ Node::Node(long ID, double q, double alfa_d_t)
 
 }
 
+Node::Node()
+{
+}
+
 Node::~Node()
 {
 }
@@ -25,6 +29,11 @@ void Node::setT(double t)
 void Node::setAlfaDT(double alfaDT)
 {
 	this->alfa_d_t = alfaDT;
+}
+
+void Node::setr(double sample_double)
+{
+	this->r = sample_double;
 }
 
 void Node::setQ(double q)
@@ -41,6 +50,11 @@ double Node::getT()
 double Node::getAlfaDT()
 {
 	return (this->alfa_d_t);
+}
+
+double Node::getr()
+{
+	return (this->r);
 }
 
 double Node::getQ()

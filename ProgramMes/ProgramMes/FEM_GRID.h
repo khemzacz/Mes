@@ -10,14 +10,18 @@ public:
 	~FEM_GRID();
 
 
+
+	void createElementsAndNodes();
+
+
 	void setBoundryConditions();
 	void generateFEM_GRID();
 	void calculateLocalMatriciesAndLocalVectors();
 	void buildGlobalMatrixAndVector(int wymiar);
 	void free();
 private:
-	Element** elementy;
-	Node** wezly;
+	Element* elementy;
+	Node* wezly;
 	GlobalData* globaldata;
 
 };
