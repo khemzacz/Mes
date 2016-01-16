@@ -12,16 +12,17 @@ public:
 
 
 	void createElementsAndNodes();
-
-
-	void setBoundryConditions();
-	void generateFEM_GRID();
 	void calculateLocalMatriciesAndLocalVectors();
-	void buildGlobalMatrixAndVector(int wymiar);
+	void buildGlobalMatrixAndVector();
+	void printK_globalne();
+	void printF_globalne();
 	void free();
 private:
 	Element* elementy;
 	Node* wezly;
+	double** K_globalne;
+	double* F_globalne;
+
 	GlobalData* globaldata;
 
 };

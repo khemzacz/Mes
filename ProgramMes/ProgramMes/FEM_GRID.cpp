@@ -38,15 +38,8 @@ void FEM_GRID::createElementsAndNodes()
 
 
 
-void FEM_GRID::generateFEM_GRID() //
-{
 
-}
 
-void FEM_GRID::setBoundryConditions()
-{
-
-}
 
 void FEM_GRID::calculateLocalMatriciesAndLocalVectors()
 {
@@ -59,9 +52,51 @@ void FEM_GRID::calculateLocalMatriciesAndLocalVectors()
 	}
 }
 
-void FEM_GRID::buildGlobalMatrixAndVector(int wymiar)
+void FEM_GRID::buildGlobalMatrixAndVector()
 {
+// \/ Alokacja pamieci i inicjalizacja zerami \/
 
+	K_globalne = new double*[gb->getMn()];
+	for (int i = 0; i < gb->getMn(); i++)
+	{
+		K_globalne[i] = new double[gb->getMn()];
+	}
+	for (int i = 0; i < gb->getMn(); i++)
+		for (int j = 0; j < gb->getMn(); j++)
+		{
+			K_globalne[i][j] = 0.0;
+		}
+	F_globalne = new double[gb->getMn()];
+	for (int i = 0; i < gb->getMn; i++)
+	{
+		F_globalne[i] = 0.0;
+	}
+
+
+// \/ Wype?nianie warto?ciami \/
+
+	double **K_lokalne;
+	double *F_lokalne;
+	for (int i = 0; i < gb->getMe(); i++)
+	{
+		K_lokalne = elementy[i].getK_lokalne();
+		K_globalne[0 + i][0 + i] += K_lokalne[0][0];
+		K_globalne[1 + i][0 + i] += K_lokalne[1][0];
+		K_globalne[0 + i][1 + i] += K_lokalne[0][1];
+		K_globalne[1 + i][1 + i] += K_lokalne[1][1];
+
+		F_lokalne = elementy[i].getF_lokalne();
+		F_globalne[0 + i] += F_lokalne[0] ;
+		F_globalne[1 + i] += F_lokalne[1] ;
+
+	}
+
+
+}
+
+void FEM_GRID::printK_globalne()
+{
+	for (int i = 0; )
 }
 
 void FEM_GRID::free()
