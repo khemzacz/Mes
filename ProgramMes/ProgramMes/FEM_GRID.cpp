@@ -67,7 +67,7 @@ void FEM_GRID::buildGlobalMatrixAndVector()
 			K_globalne[i][j] = 0.0;
 		}
 	F_globalne = new double[gb->getMn()];
-	for (int i = 0; i < gb->getMn; i++)
+	for (int i = 0; i < gb->getMn(); i++)
 	{
 		F_globalne[i] = 0.0;
 	}
@@ -96,7 +96,25 @@ void FEM_GRID::buildGlobalMatrixAndVector()
 
 void FEM_GRID::printK_globalne()
 {
-	for (int i = 0; )
+	cout << endl<<endl;
+	for (int i = 0; i < gb->getMn(); i++)
+	{
+	
+		for (int j = 0; j < gb->getMn(); j++)
+		{
+			cout << K_globalne[i][j] << "\t";
+		}
+		cout << endl;
+	}
+}
+
+void FEM_GRID::printF_globalne()
+{
+	cout << endl << endl;
+	for (int i = 0; i < gb->getMn(); i++)
+	{
+		cout << F_globalne[i] << endl;
+	}
 }
 
 void FEM_GRID::free()

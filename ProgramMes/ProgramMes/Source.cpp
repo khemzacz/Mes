@@ -29,6 +29,8 @@ int main()
 	fem_grid->createElementsAndNodes();
 	fem_grid->calculateLocalMatriciesAndLocalVectors();
 	fem_grid->buildGlobalMatrixAndVector();
+	fem_grid->printK_globalne();
+	fem_grid->printF_globalne();
 	//
 
 	//
