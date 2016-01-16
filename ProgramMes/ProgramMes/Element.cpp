@@ -122,8 +122,8 @@ void Element::calculateLocalMatricies()
 	//cout << endl << K_lokalne[0][1];
 	//cout << endl << K_lokalne[1][0];
 	//cout << endl << K_lokalne[1][1]<<endl;
-	cout << endl << F_lokalne[0];
-	cout << endl << F_lokalne[1] << endl;
+	//cout << endl << F_lokalne[0];
+	//cout << endl << F_lokalne[1] << endl;
 
 }
 
