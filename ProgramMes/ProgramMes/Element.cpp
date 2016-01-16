@@ -3,21 +3,7 @@
 
 using namespace std;
 
-Element::Element(long ID, long NOP1, long NOP2, double L, int Me)
-{
-	this->ID = ID;
 
-	H_lokalne = new double*[2];
-
-	this->dl = L / Me;
-
-	for (int i = 0; i < 2; i++)
-	{
-		H_lokalne[i] = new double[2];
-	}
-
-	P_lokalne = new double[2];
-}
 
 Element::Element()
 {
@@ -34,20 +20,7 @@ double Element::getDl()
 	return (this->dl);
 }
 
-double** Element::getH_lokalne()
-{
-	return (this->H_lokalne);
-}
 
-void Element::setH_lokalne(double wartosc, int w, int k)
-{
-	this->H_lokalne[w][k] = wartosc;
-}
-
-void Element::setP_lokalne(double wartosc, int k)
-{
-	this->P_lokalne[k] = wartosc;
-}
 
 
 
@@ -56,14 +29,16 @@ void Element::free()
 
 }
 
-double* Element::getP_lokalne()
-{
-	return (this->P_lokalne);
-}
+
 
 double ** Element::getK_lokalne()
 {
 	return this->K_lokalne;
+}
+
+double * Element::getF_lokalne()
+{
+	return this->F_lokalne;
 }
 
 void Element::setNOP1(Node * sample_node)
@@ -74,6 +49,11 @@ void Element::setNOP1(Node * sample_node)
 void Element::setNOP2(Node * sample_node)
 {
 	this->NOP2 = sample_node;
+}
+
+void Element::setID(int sample_int)
+{
+	this->ID = sample_int;
 }
 
 void Element::createK_lokalne()
@@ -90,7 +70,13 @@ void Element::createK_lokalne()
 		}
 }
 
-void Element::calculateK_lokalne()
+void Element::createF_lokalne()
+{
+	F_lokalne = new double[2];
+	F_lokalne[0] = 0.0; F_lokalne[1] = 0.0;
+}
+
+void Element::calculateLocalMatricies()
 {
 	double wynik_calkowania = 0;
 	
@@ -107,24 +93,38 @@ void Element::calculateK_lokalne()
 	double E[2] = { -0.5773502692, 0.5773502692 };
 	double N1[2] = { 0.5*(1 - E[0]), 0.5*(1 - E[1]) };
 	double N2[2] = { 0.5*(1 + E[0]), 0.5*(1 + E[1]) };
-	double rp;
+	double rp,tptau;
 
 	double p = gb->getp();
 	double waga = 1;
 	// cout << endl << rp; // wyglada rozsadnie
+	double alfa = 0.0;
+	if (this->ID == gb->getMe())
+		alfa = gb->getAlfa();
 	for (int i = 0; i < 2; i++)
 	{
 		rp = ( N1[i] * NOP1->getr() + N2[i] * NOP2->getr() );
-		//cout << endl << rp << endl; ok
+		tptau = ( N1[i] * gb->gett0() + N2[i] * gb->gett0() ); 
 		K_lokalne[0][0] += k*rp*waga / deltaR + c*p*deltaR*rp*waga*N1[i] * N1[i] / deltaTau;
 
-		K_lokalne[0][1] = -1 * gb->getk() / gb->getdeltaR() *(rp1 + rp2);
+		K_lokalne[0][1] += -1* k*rp*waga / deltaR + c*p*deltaR*rp*waga*N1[i] * N2[i] / deltaTau;
 
-		K_lokalne[1][0];
+		K_lokalne[1][0] = K_lokalne[0][1];
 
-		K_lokalne[1][1] = k / deltaR;
+		K_lokalne[1][1] += k*rp*waga / deltaR +  c*p*deltaR*rp*waga*N2[i] * N2[i] / deltaTau + 2*alfa*gb->getrMax();
+
+		F_lokalne[0] += c*p*deltaR*tptau*rp*waga*N1[i] / deltaTau;
+
+		F_lokalne[1] += c*p*deltaR*tptau*rp*waga*N2[i] / deltaTau + 2 * alfa*gb->getrMax()*gb->gettn();
+
 	}
-	cout << endl << K_lokalne[0][0];
+	//cout << endl << K_lokalne[0][0];
+	//cout << endl << K_lokalne[0][1];
+	//cout << endl << K_lokalne[1][0];
+	//cout << endl << K_lokalne[1][1]<<endl;
+	cout << endl << F_lokalne[0];
+	cout << endl << F_lokalne[1] << endl;
+
 }
 
 double Element::calkowanie_jeden() //schematem trójpunktowym

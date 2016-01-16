@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <cstdio>
+#include <conio.h>
 #include <math.h>
 #include <fstream>
 #include <string>
@@ -15,7 +16,13 @@ int main()
 	GlobalData* globaldata = new GlobalData();
 	FEM_GRID* fem_grid = new FEM_GRID(globaldata);
 
-	globaldata->pobierz_dane();
+
+	if (!globaldata->pobierz_dane())
+	{
+		cout << endl << "Brak pliku GlobalData.txt";
+		_getch();
+		return 0;
+	}
 	globaldata->wypisz_dane();
 
 	

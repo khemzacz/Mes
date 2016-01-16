@@ -36,8 +36,7 @@ public:
 	double getp();
 	double gett0();
 	double gettn();
-
-	void pobierz_dane();
+	bool pobierz_dane();
 	void wypisz_dane();
 
 

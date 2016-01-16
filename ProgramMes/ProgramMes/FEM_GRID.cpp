@@ -26,6 +26,7 @@ void FEM_GRID::createElementsAndNodes()
 		elementy[i].setGlobalData(globaldata); // elymenty dostaja dostep do globalnych danych np. k, deltaR
 		elementy[i].setNOP1(&wezly[i]);
 		elementy[i].setNOP2(&wezly[i + 1]);
+		elementy[i].setID(i + 1);
 	}
 	for (int i = 0; i < globaldata->getMn(); i++)
 	{
@@ -52,7 +53,8 @@ void FEM_GRID::calculateLocalMatriciesAndLocalVectors()
 	for (int i = 0; i < gb->getMe(); i++)
 	{
 		elementy[i].createK_lokalne();
-		elementy[i].calculateK_lokalne();
+		elementy[i].createF_lokalne();
+		elementy[i].calculateLocalMatricies();
 
 	}
 }

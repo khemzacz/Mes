@@ -5,25 +5,25 @@
 class Element
 {
 public:
-	Element(long, long, long, double L, int Me);
+
 	Element();
 	~Element();
 
-	void setH_lokalne(double wartosc, int w, int k);
-	void setP_lokalne(double wartosc, int k);
 	void setGlobalData(GlobalData*);
 	
 
 	double getDl();
-	double** getH_lokalne();
-	double* getP_lokalne();
+
 
 	double** getK_lokalne();
+	double* getF_lokalne();
 	void setNOP1(Node*);
 	void setNOP2(Node*);
+	void setID(int);
 
 	void createK_lokalne();
-	void calculateK_lokalne();
+	void createF_lokalne();
+	void calculateLocalMatricies();
 
 	double calkowanie_jeden();
 
@@ -39,9 +39,8 @@ private:
 	//double k;
 
 	double** K_lokalne;
+	double* F_lokalne;
 
 	GlobalData* gb;
-	double** H_lokalne;
-	double* P_lokalne;
 };
 

@@ -16,7 +16,7 @@ GlobalData::~GlobalData()
 {
 }
 
-void GlobalData::pobierz_dane()
+bool GlobalData::pobierz_dane()
 {
 	fstream plik;
 	plik.open("GlobalData.txt", ios::in);
@@ -92,12 +92,13 @@ void GlobalData::pobierz_dane()
 			//cout << test << "\t" << wartosc << endl;
 		}
 		plik.close();
+		return 1;
 	}
 	else
 	{
-		cout << "Brak pliku GlobalData.txt";
+		return 0;
 	}
-	return;
+	
 }
 
 void GlobalData::wypisz_dane()
