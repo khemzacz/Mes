@@ -62,11 +62,11 @@ void FEM_GRID::calculateLocalMatriciesAndLocalVectors()
 	H_lokalne[0][0] = Sk / elementy[i]->getDl();
 	H_lokalne[1][0] =  -1 * (Sk / elementy[i]->getDl());
 	H_lokalne[0][1] = -1 * (Sk / elementy[i]->getDl());
-	H_lokalne[1][1] = ((Sk / elementy[i]->getDl())+(gb->getAlfa()*gb->getS()));
+	H_lokalne[1][1] = ((Sk / elementy[i]->getDl())+(1 * 0.02518 *60 * 500));
 
-	double* P_lokalne;
+	double* P_lokalne; // warunek brzegowy 1szego wêz³a
 	P_lokalne = elementy[0]->getP_lokalne();
-	(P_lokalne[0] = 1 * gb->getQ()*gb->getS());
+	(P_lokalne[0] = 1 * 0.02518*60*500);//gb->getQ()*gb->getS());
 	(P_lokalne[1] = 0);
 	i = 1;
 	for (; i < gb->getMe() - 1; i++)
@@ -77,9 +77,9 @@ void FEM_GRID::calculateLocalMatriciesAndLocalVectors()
 
 	}
 
-	P_lokalne = elementy[i]->getP_lokalne();
+	P_lokalne = elementy[i]->getP_lokalne(); // warunek brzegowy ostatniego wêz³a
 	(P_lokalne[0] = 0);
-	(P_lokalne[1] = -1 * gb->getAlfa()*gb->getT()*gb->getS());
+	(P_lokalne[1] = -1 * 0.02518 * 60 * 7);//gb->getAlfa()*gb->getT()*gb->getS()); 
 	
 }
 
