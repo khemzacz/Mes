@@ -16,6 +16,7 @@ public:
 	void buildGlobalMatrixAndVector();
 	void printK_globalne();
 	void printF_globalne();
+	void liczPoCzasie();
 	void free();
 private:
 	Element* elementy;

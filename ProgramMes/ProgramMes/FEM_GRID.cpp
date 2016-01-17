@@ -86,8 +86,8 @@ void FEM_GRID::buildGlobalMatrixAndVector()
 		K_globalne[1 + i][1 + i] += K_lokalne[1][1];
 
 		F_lokalne = elementy[i].getF_lokalne();
-		F_globalne[0 + i] += F_lokalne[0] ;
-		F_globalne[1 + i] += F_lokalne[1] ;
+		F_globalne[0 + i] += F_lokalne[0] * -1 ;
+		F_globalne[1 + i] += F_lokalne[1] * -1;
 
 	}
 
@@ -115,6 +115,15 @@ void FEM_GRID::printF_globalne()
 	{
 		cout << F_globalne[i] << endl;
 	}
+}
+
+void FEM_GRID::liczPoCzasie()
+{
+	double a = gb->getk() / (gb->getc()*gb->getp());
+	double dTau=(gb->getdeltaR()*gb->getdeltaR() / (0.5*a))
+
+	//for (int nTime = 1; iTime<=nTime)
+
 }
 
 void FEM_GRID::free()
