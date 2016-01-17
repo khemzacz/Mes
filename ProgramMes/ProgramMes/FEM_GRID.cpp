@@ -238,7 +238,7 @@ void FEM_GRID::buildGlobalMatrixAndVector(int wymiar)
 	cout << "t1: " << Wt1 / W << endl;
 	cout << "t2: " << Wt2 / W << endl;
 	cout << "t3: " << Wt3 / W << endl;
-
+	cipa
 	*/
 }
 
