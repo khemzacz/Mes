@@ -123,7 +123,7 @@ void FEM_GRID::liczPoCzasie()
 	double dTau=(gb->getdeltaR()*gb->getdeltaR() / (0.5*a))
 
 	//for (int nTime = 1; iTime<=nTime)
-
+		
 }
 
 void FEM_GRID::free()
