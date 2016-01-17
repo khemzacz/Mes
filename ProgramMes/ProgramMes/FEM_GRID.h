@@ -17,6 +17,8 @@ public:
 	void printK_globalne();
 	void printF_globalne();
 	void liczPoCzasie();
+	void solveSystemOfEquations();
+	void printTempratures();
 	void free();
 private:
 	Element* elementy;

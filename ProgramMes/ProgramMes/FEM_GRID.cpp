@@ -27,6 +27,8 @@ void FEM_GRID::createElementsAndNodes()
 		elementy[i].setNOP1(&wezly[i]);
 		elementy[i].setNOP2(&wezly[i + 1]);
 		elementy[i].setID(i + 1);
+		elementy[i].createK_lokalne();
+		elementy[i].createF_lokalne();
 	}
 	for (int i = 0; i < globaldata->getMn(); i++)
 	{
@@ -46,8 +48,6 @@ void FEM_GRID::calculateLocalMatriciesAndLocalVectors()
 {
 	for (int i = 0; i < gb->getMe(); i++)
 	{
-		elementy[i].createK_lokalne();
-		elementy[i].createF_lokalne();
 		elementy[i].calculateLocalMatricies(gb->getdeltaTau());
 
 	}
@@ -60,10 +60,10 @@ void FEM_GRID::buildGlobalMatrixAndVector()
 	K_globalne = new double*[gb->getMn()];
 	for (int i = 0; i < gb->getMn(); i++)
 	{
-		K_globalne[i] = new double[gb->getMn()];
+		K_globalne[i] = new double[gb->getMn()+1];
 	}
 	for (int i = 0; i < gb->getMn(); i++)
-		for (int j = 0; j < gb->getMn(); j++)
+		for (int j = 0; j < gb->getMn()+1; j++) // +1 dla póŸniejszego wpisania do ost. kol. wektora F (potrzebne do implementacji metody Gaussa)
 		{
 			K_globalne[i][j] = 0.0;
 		}
@@ -101,7 +101,7 @@ void FEM_GRID::printK_globalne()
 	for (int i = 0; i < gb->getMn(); i++)
 	{
 	
-		for (int j = 0; j < gb->getMn(); j++)
+		for (int j = 0; j < gb->getMn()+1; j++)
 		{
 			cout << K_globalne[i][j] << "\t";
 		}
@@ -130,12 +130,100 @@ void FEM_GRID::liczPoCzasie()
 	for (int iTime = 1; iTime <= nTime;iTime++)
 	{
 		calculateLocalMatriciesAndLocalVectors(); // przeliczanie lokalnych
-		//rozwiazywanie ukladu rownan
-		//pozmienianie temperatur w NOPach
+		buildGlobalMatrixAndVector();
+		solveSystemOfEquations();// rozw + pozmienianie temperatur w NOPach
+		printTempratures();
+		
 		
 
 	}
 		
+}
+
+void FEM_GRID::solveSystemOfEquations()
+{
+#define Hg K_globalne
+#define Pg F_globalne
+
+	for (int i = 0; i < gb->getMn(); i++)
+	{
+		Hg[i][gb->getMn()] = -1*Pg[i];
+	}
+
+	for (int i = 0; i <gb->getMn() ;i++) // pivotisation
+	{
+		for (int k = i + 1; k < gb->getMn();k++)
+			if (Hg[i][i] < Hg[k][i])
+			{
+				for (int j = 0; j <= gb->getMn(); j++)
+				{
+					double temp = Hg[i][j];
+					Hg[i][j] = Hg[k][j];
+					Hg[k][j] = temp;
+				}
+			}
+	}
+
+
+	//printK_globalne(); // OK BZ
+
+	
+	for (int i = 0; i < gb->getMn() ; i++) // loop to perform gaussian elim.
+	{
+		for (int k = i+1; k < gb->getMn(); k++)
+		{
+			double t = (Hg[k][i] / Hg[i][i]);
+			for (int j = 0; j <= gb->getMn(); j++)
+			{
+				Hg[k][j] = Hg[k][j] - (t*Hg[i][j]);
+				//if (Hg[k + 1][j]<0.00000001 && Hg[k + 1][j]> -0.00000001)
+				//	Hg[k + 1][j] = 0;
+			}
+		}
+	}
+
+//	printK_globalne();
+	//gb->wypiszPg();
+
+	//gb->tworzWektorT(gb->getMn());
+	//double* w_r = gb->getWektorT();
+
+	double* w_r = new double[gb->getMn()];
+	for (int i = 0; i < gb->getMn()+1; i++)
+		w_r[i] = 0.0;
+	for (int i = (gb->getMn() - 1); i >= 0; i--) // back subs
+	{
+		w_r[i] = (Hg[i][gb->getMn()]);
+
+		for (int j = 0; j <= gb->getMn() ; j++)
+		
+			if(j!=i)
+				w_r[i] = (w_r[i] - Hg[i][j] * w_r[j]);
+		w_r[i] = (w_r[i] / Hg[i][i]);
+		//	w_r[i] -= Hg[i][j] * w_r[j];
+		//		w_r[i] -= - Hg[i][j] * w_r[j];
+		//
+		//w_r[i] = (w_r[i] / Hg[i][i]);
+		//cout << endl << w_r[i]<<endl;
+	}
+	//printK_globalne();
+	//gb->wypiszPg();
+
+	for (int i = 0; i < gb->getMn(); i++)
+	{
+		wezly[i].setTemp(w_r[i]);
+
+	}
+
+}
+
+void FEM_GRID::printTempratures()
+{
+	cout << endl << endl;
+	for (int i = 0; i < gb->getMn(); i++)
+	{
+		cout << wezly[i].getTemp() << "\t";
+	}
 }
 
 void FEM_GRID::free()

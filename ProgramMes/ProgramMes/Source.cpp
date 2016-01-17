@@ -27,11 +27,14 @@ int main()
 
 	
 	fem_grid->createElementsAndNodes();
-	fem_grid->calculateLocalMatriciesAndLocalVectors();
-	fem_grid->buildGlobalMatrixAndVector();
-	fem_grid->printK_globalne();
-	fem_grid->printF_globalne();
 	fem_grid->liczPoCzasie();
+	//fem_grid->calculateLocalMatriciesAndLocalVectors();
+	//fem_grid->buildGlobalMatrixAndVector();
+	//fem_grid->printK_globalne();
+	//fem_grid->printF_globalne();
+	//fem_grid->solveSystemOfEquations();
+	//fem_grid->printTempratures();
+	//fem_grid->liczPoCzasie();
 
 	//
 

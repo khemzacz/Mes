@@ -111,7 +111,7 @@ void Element::calculateLocalMatricies(double deltaTau)
 
 		K_lokalne[1][0] = K_lokalne[0][1];
 
-		K_lokalne[1][1] += k*rp*waga / deltaR +  c*p*deltaR*rp*waga*N2[i] * N2[i] / deltaTau + 2*alfa*gb->getrMax();
+		K_lokalne[1][1] += k*rp*waga / deltaR +  c*p*deltaR*rp*waga*N2[i] * N2[i] / deltaTau ;
 
 		F_lokalne[0] += c*p*deltaR*tptau*rp*waga*N1[i] / deltaTau;
 
@@ -119,7 +119,7 @@ void Element::calculateLocalMatricies(double deltaTau)
 
 	}
 	F_lokalne[1] += 2 * alfa*gb->getrMax()*gb->gettn();
-
+	K_lokalne[1][1] += 2 * alfa*gb->getrMax();
 	//cout << endl << K_lokalne[0][0];
 	//cout << endl << K_lokalne[0][1];
 	//cout << endl << K_lokalne[1][0];
