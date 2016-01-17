@@ -57,6 +57,11 @@ double Node::getr()
 	return (this->r);
 }
 
+void Node::free()
+{
+
+}
+
 double Node::getQ()
 {
 	return(this->q);

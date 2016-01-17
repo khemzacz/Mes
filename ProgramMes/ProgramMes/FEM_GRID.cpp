@@ -1,7 +1,9 @@
 #include <iostream>
+#include <fstream>
 #include "FEM_GRID.h"
 #include "GlobalData.h"
 #include "Node.h"
+
 
 #define gb globaldata
 
@@ -44,11 +46,11 @@ void FEM_GRID::createElementsAndNodes()
 
 
 
-void FEM_GRID::calculateLocalMatriciesAndLocalVectors()
+void FEM_GRID::calculateLocalMatriciesAndLocalVectors(double sample_double)
 {
 	for (int i = 0; i < gb->getMe(); i++)
 	{
-		elementy[i].calculateLocalMatricies(gb->getdeltaTau());
+		elementy[i].calculateLocalMatricies(sample_double);
 
 	}
 }
@@ -123,21 +125,26 @@ void FEM_GRID::liczPoCzasie()
 	double a = gb->getk() / (gb->getc()*gb->getp());
 	double dTau = (gb->getdeltaR()*gb->getdeltaR() / (0.5*a));
 	double TauMax = gb->getTauMax();
-	cout << "TauMax: " << TauMax << endl;
+
 	double nTime = (TauMax / dTau) +1;
-	cout << "nTime: " << nTime << endl;
-	dTau = gb->getdeltaTau();
+
+
+	dTau = (TauMax/nTime);
+	cout << "Obliczony krok czasowy: " << dTau;
+	cout << endl << endl << "               " << "     \t"; printNodesIds();
+	prepareFile(dTau);
 	for (int iTime = 1; iTime <= nTime;iTime++)
 	{
-		calculateLocalMatriciesAndLocalVectors(); // przeliczanie lokalnych
+		calculateLocalMatriciesAndLocalVectors(dTau); // przeliczanie lokalnych
 		buildGlobalMatrixAndVector();
 		solveSystemOfEquations();// rozw + pozmienianie temperatur w NOPach
-		printTempratures();
-		
+
+		cout << endl << endl << "Krok czasowy " << iTime << ":    \t"; printTempratures();
+		printTempsToFile(iTime);
 		
 
 	}
-		
+	cout << endl;
 }
 
 void FEM_GRID::solveSystemOfEquations()
@@ -149,8 +156,8 @@ void FEM_GRID::solveSystemOfEquations()
 	{
 		Hg[i][gb->getMn()] = -1*Pg[i];
 	}
-
-	for (int i = 0; i <gb->getMn() ;i++) // pivotisation
+	/* GAUSSIAN ELIMINATION */
+	for (int i = 0; i <gb->getMn() ;i++) 
 	{
 		for (int k = i + 1; k < gb->getMn();k++)
 			if (Hg[i][i] < Hg[k][i])
@@ -163,12 +170,8 @@ void FEM_GRID::solveSystemOfEquations()
 				}
 			}
 	}
-
-
-	//printK_globalne(); // OK BZ
-
 	
-	for (int i = 0; i < gb->getMn() ; i++) // loop to perform gaussian elim.
+	for (int i = 0; i < gb->getMn() ; i++) 
 	{
 		for (int k = i+1; k < gb->getMn(); k++)
 		{
@@ -176,22 +179,14 @@ void FEM_GRID::solveSystemOfEquations()
 			for (int j = 0; j <= gb->getMn(); j++)
 			{
 				Hg[k][j] = Hg[k][j] - (t*Hg[i][j]);
-				//if (Hg[k + 1][j]<0.00000001 && Hg[k + 1][j]> -0.00000001)
-				//	Hg[k + 1][j] = 0;
 			}
 		}
 	}
 
-//	printK_globalne();
-	//gb->wypiszPg();
-
-	//gb->tworzWektorT(gb->getMn());
-	//double* w_r = gb->getWektorT();
-
 	double* w_r = new double[gb->getMn()];
 	for (int i = 0; i < gb->getMn()+1; i++)
 		w_r[i] = 0.0;
-	for (int i = (gb->getMn() - 1); i >= 0; i--) // back subs
+	for (int i = (gb->getMn() - 1); i >= 0; i--) 
 	{
 		w_r[i] = (Hg[i][gb->getMn()]);
 
@@ -200,14 +195,7 @@ void FEM_GRID::solveSystemOfEquations()
 			if(j!=i)
 				w_r[i] = (w_r[i] - Hg[i][j] * w_r[j]);
 		w_r[i] = (w_r[i] / Hg[i][i]);
-		//	w_r[i] -= Hg[i][j] * w_r[j];
-		//		w_r[i] -= - Hg[i][j] * w_r[j];
-		//
-		//w_r[i] = (w_r[i] / Hg[i][i]);
-		//cout << endl << w_r[i]<<endl;
 	}
-	//printK_globalne();
-	//gb->wypiszPg();
 
 	for (int i = 0; i < gb->getMn(); i++)
 	{
@@ -219,14 +207,91 @@ void FEM_GRID::solveSystemOfEquations()
 
 void FEM_GRID::printTempratures()
 {
-	cout << endl << endl;
+	
 	for (int i = 0; i < gb->getMn(); i++)
 	{
 		cout << wezly[i].getTemp() << "\t";
 	}
 }
 
+void FEM_GRID::prepareFile(double sample)
+{
+	std::fstream plik("wynik.txt", std::ios::out);
+	if (plik.good() == true)
+	{
+		plik << "Liczba Elementow (Me): " << gb->getMe() << endl;
+		plik << "Liczba Wezlow (Mn): " << gb->getMn() << endl;
+		plik << "Wspolczynnik przewodzenia ciepla (K): " << gb->getk() << endl;
+		plik << "Alfa (alfa): " << gb->getAlfa() << endl;
+		plik << "Temperatura: " << gb->getT() << endl;
+		plik << "rMax: " << gb->getrMax() << "\t";
+		plik << "deltaR: " << gb->getdeltaR() << "\t";
+		plik << "deltaTau: " << gb->getdeltaTau() << endl;
+		plik << "c: " << gb->getc() << "\t";
+		plik << "p: " << gb->getp() << "\t";
+		plik << "k: " << gb->getk() << endl;
+		plik << "t0: " << gb->gett0() << "\t";
+		plik << "tn: " << gb->gettn() << "\t"<<endl;
+		plik << "Obliczony krok czasowy: " << sample;
+
+
+
+		plik << endl << endl << "               " << "     \t";
+		for (int i = 0; i < gb->getMn(); i++)
+		{
+			plik << "NOP" << i << "\t";
+		}
+		plik.close();
+	}
+}
+
+void FEM_GRID::printTempsToFile(int sample_int)
+{
+	/* Ponizej druk do pliku wynik.txt */
+	std::fstream plik("wynik.txt", std::ios_base::app);
+	if (plik.good() == true)
+	{
+		plik << endl << endl << "Krok czasowy " << sample_int << ":    \t";
+		for (int i = 0; i < gb->getMn(); i++)
+			plik << wezly[i].getTemp() << "\t";
+
+
+		plik.close();
+	}
+
+
+}
+
+void FEM_GRID::printNodesIds()
+{
+	for (int i = 0; i < gb->getMn(); i++)
+	{
+		cout << "NOP" << i << "\t";
+	}
+}
+
 void FEM_GRID::free()
 {
+
+	for (int i = 0; i < globaldata->getMe(); i++)
+	{
+		elementy[i].free();
+	}
+	for (int i = 0; i < globaldata->getMn(); i++)
+	{
+		wezly[i].free();
+
+	}
+	delete [] elementy;
+	delete [] wezly;
+
+
+
+	for (int i = 0; i < gb->getMn(); i++)
+	{
+		delete [] K_globalne[i];
+	}
+	delete [] K_globalne;
+	delete[] F_globalne;
 
 }

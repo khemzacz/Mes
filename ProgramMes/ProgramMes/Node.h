@@ -17,6 +17,7 @@ public:
 	double getAlfaDT();
 	double getr();
 
+	void free();
 private:
 	long ID;
 	double t;

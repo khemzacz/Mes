@@ -26,7 +26,10 @@ double Element::getDl()
 
 void Element::free()
 {
-
+	for (int i = 0; i < 2; i++)
+		delete[] K_lokalne[i];
+	delete[] K_lokalne;
+	delete[] F_lokalne;
 }
 
 

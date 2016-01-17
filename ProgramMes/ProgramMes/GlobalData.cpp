@@ -110,10 +110,10 @@ void GlobalData::wypisz_dane()
 {
 	cout <<endl<< "Liczba Elementow (Me): " << getMe()<<endl;
 	cout << "Liczba Wezlow (Mn): " << getMn() << endl;
-	cout << "DLugosc (L): " << getL() << endl;
-	cout << "Powierzchnia (S): " << getS() << endl;
+	//cout << "DLugosc (L): " << getL() << endl;
+	//cout << "Powierzchnia (S): " << getS() << endl;
 	cout << "Wspolczynnik przewodzenia ciepla (K): " << getk() << endl;
-	cout << "Q (q): " << getQ() << endl;
+	//cout << "Q (q): " << getQ() << endl;
 	cout << "Alfa (alfa): " << getAlfa() << endl;
 	cout << "Temperatura: " << getT() << endl;
 	cout << "rMax: " << getrMax() << "\t" ;
@@ -124,6 +124,7 @@ void GlobalData::wypisz_dane()
 	cout << "k: " << getk() << endl;
 	cout << "t0: " << gett0() << "\t";
 	cout << "tn: " << gettn() << "\t";
+	cout << "TauMax: " << getTauMax() << "\t";
 
 
 

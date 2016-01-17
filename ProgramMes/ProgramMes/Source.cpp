@@ -38,7 +38,7 @@ int main()
 
 	//
 
-	//fem_grid->free();
+	fem_grid->free();
 	delete globaldata;
 	delete fem_grid;
 	system("PAUSE");
