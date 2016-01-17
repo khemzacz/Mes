@@ -31,7 +31,7 @@ int main()
 	fem_grid->buildGlobalMatrixAndVector();
 	fem_grid->printK_globalne();
 	fem_grid->printF_globalne();
-	//
+	fem_grid->liczPoCzasie();
 
 	//
 

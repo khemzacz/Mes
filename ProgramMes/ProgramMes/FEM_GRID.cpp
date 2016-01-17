@@ -31,6 +31,7 @@ void FEM_GRID::createElementsAndNodes()
 	for (int i = 0; i < globaldata->getMn(); i++)
 	{
 		wezly[i].setr(i*globaldata->getdeltaR());
+		wezly[i].setTemp(gb->gett0());
 
 	}
 
@@ -47,7 +48,7 @@ void FEM_GRID::calculateLocalMatriciesAndLocalVectors()
 	{
 		elementy[i].createK_lokalne();
 		elementy[i].createF_lokalne();
-		elementy[i].calculateLocalMatricies();
+		elementy[i].calculateLocalMatricies(gb->getdeltaTau());
 
 	}
 }
@@ -120,9 +121,20 @@ void FEM_GRID::printF_globalne()
 void FEM_GRID::liczPoCzasie()
 {
 	double a = gb->getk() / (gb->getc()*gb->getp());
-	double dTau=(gb->getdeltaR()*gb->getdeltaR() / (0.5*a))
+	double dTau = (gb->getdeltaR()*gb->getdeltaR() / (0.5*a));
+	double TauMax = gb->getTauMax();
+	cout << "TauMax: " << TauMax << endl;
+	double nTime = (TauMax / dTau) +1;
+	cout << "nTime: " << nTime << endl;
+	dTau = gb->getdeltaTau();
+	for (int iTime = 1; iTime <= nTime;iTime++)
+	{
+		calculateLocalMatriciesAndLocalVectors(); // przeliczanie lokalnych
+		//rozwiazywanie ukladu rownan
+		//pozmienianie temperatur w NOPach
+		
 
-	//for (int nTime = 1; iTime<=nTime)
+	}
 		
 }
 

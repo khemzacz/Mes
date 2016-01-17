@@ -20,6 +20,7 @@ public:
 	void setp(double);
 	void sett0(double);
 	void settn(double);
+	void setTauMax(double);
 
 	int getMe();
 	int getMn();
@@ -36,6 +37,7 @@ public:
 	double getp();
 	double gett0();
 	double gettn();
+	double getTauMax();
 	bool pobierz_dane();
 	void wypisz_dane();
 
@@ -44,6 +46,6 @@ private:
 	int Me, Mn;
 	double L, S, k; // 
 	double q, alfa, T; // 
-	double rMax, deltaR, deltaTau, c, p, t0, tn;
+	double rMax, deltaR, deltaTau, c, p, t0, tn, TauMax;
 };
 

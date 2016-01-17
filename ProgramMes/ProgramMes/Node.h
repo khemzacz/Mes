@@ -7,12 +7,12 @@ public:
 	Node();
 	~Node();
 
-	void setT(double t);
+	void setTemp(double t);
 	void setQ(double q);
 	void setAlfaDT(double alfaDT);
 	void setr(double);
 
-	double getT();
+	double getTemp();
 	double getQ();
 	double getAlfaDT();
 	double getr();

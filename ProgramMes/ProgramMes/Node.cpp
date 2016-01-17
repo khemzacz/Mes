@@ -21,7 +21,7 @@ Node::~Node()
 {
 }
 
-void Node::setT(double t)
+void Node::setTemp(double t)
 {
 	this->t = t;
 }
@@ -42,7 +42,7 @@ void Node::setQ(double q)
 }
 
 
-double Node::getT()
+double Node::getTemp()
 {
 	return (this->t);
 }

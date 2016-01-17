@@ -89,6 +89,11 @@ bool GlobalData::pobierz_dane()
 			{
 				settn(wartosc);
 			}
+			else if (test == "TauMax:")
+			{
+				setTauMax(wartosc);
+			}
+
 			//cout << test << "\t" << wartosc << endl;
 		}
 		plik.close();
@@ -199,6 +204,11 @@ void GlobalData::settn(double sample_var)
 	this->tn = sample_var;
 }
 
+void GlobalData::setTauMax(double sample)
+{
+	this->TauMax = sample;
+}
+
 int GlobalData::getMe()
 {
 	return Me;
@@ -272,6 +282,11 @@ double GlobalData::gett0()
 double GlobalData::gettn()
 {
 	return (this->tn);
+}
+
+double GlobalData::getTauMax()
+{
+	return this->TauMax;
 }
 
 

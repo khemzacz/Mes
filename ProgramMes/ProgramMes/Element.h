@@ -23,7 +23,7 @@ public:
 
 	void createK_lokalne();
 	void createF_lokalne();
-	void calculateLocalMatricies();
+	void calculateLocalMatricies(double);
 
 	double calkowanie_jeden();
 

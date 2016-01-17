@@ -63,29 +63,29 @@ void Element::createK_lokalne()
 	{
 		K_lokalne[i] = new double[2];
 	}
-	for (int i = 0; i < 2; i++)
-		for (int j = 0; j < 2; j++)
-		{
-			K_lokalne[i][j] = 0.0;
-		}
+
 }
 
 void Element::createF_lokalne()
 {
 	F_lokalne = new double[2];
-	F_lokalne[0] = 0.0; F_lokalne[1] = 0.0;
+
 }
 
-void Element::calculateLocalMatricies()
+void Element::calculateLocalMatricies(double deltaTau)
 {
-	double wynik_calkowania = 0;
-	
+	for (int i = 0; i < 2; i++) /*Zerowanie*/
+		for (int j = 0; j < 2; j++)
+		{
+			K_lokalne[i][j] = 0.0;
+		}
+	F_lokalne[0] = 0.0; F_lokalne[1] = 0.0; /*Zerowanie*/
 	
 
 
 	double c = gb->getc();
 	double deltaR = gb->getdeltaR();
-	double deltaTau = gb->getdeltaTau();
+	//double deltaTau = gb->getdeltaTau();
 	double k = gb->getk();
 	// Schemat ca?kowania dwópunktowy: -0.57735, 0.57735 wagi = 1
 	double rp1 = (0.5*(1 - 0.5773502692)*gb->getdeltaR()+NOP1->getr());
@@ -104,7 +104,7 @@ void Element::calculateLocalMatricies()
 	for (int i = 0; i < 2; i++)
 	{
 		rp = ( N1[i] * NOP1->getr() + N2[i] * NOP2->getr() );
-		tptau = ( N1[i] * gb->gett0() + N2[i] * gb->gett0() ); 
+		tptau = ( N1[i] * NOP1->getTemp() + N2[i] * NOP2->getTemp() ); 
 		K_lokalne[0][0] += k*rp*waga / deltaR + c*p*deltaR*rp*waga*N1[i] * N1[i] / deltaTau;
 
 		K_lokalne[0][1] += -1* k*rp*waga / deltaR + c*p*deltaR*rp*waga*N1[i] * N2[i] / deltaTau;
